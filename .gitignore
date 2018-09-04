@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+
+#IPDB file
+*.ipdb
