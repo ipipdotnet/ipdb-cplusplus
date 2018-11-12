@@ -32,7 +32,7 @@ void ipdb::MetaData::Parse(const string &json) {
 
 int ipdb::Reader::readNode(int node, int index) const {
     auto off = node * 8 + index * 4;
-    return ntohl(static_cast<uint32_t>(*(int *) &data[off]));
+    return ntohl(static_cast<uint32_t>(*(int *) &data.get()[off]));
 }
 
 string ipdb::Reader::resolve(int node) {
@@ -41,11 +41,11 @@ string ipdb::Reader::resolve(int node) {
         throw ErrDatabaseError;
     }
 
-    auto size = (data[resolved] << 8) | data[resolved + 2];
+    auto size = (data.get()[resolved] << 8) | data.get()[resolved + 2];
     if ((resolved + 2 + size) > dataSize) {
         throw ErrDatabaseError;
     }
-    string bytes = (const char *) data + resolved + 2;
+    string bytes = (const char *) data.get() + resolved + 2;
     return bytes;
 }
 
@@ -172,14 +172,13 @@ bool ipdb::Reader::IsIPv4Support() {
     return (((int) meta.IPVersion) & IPv4) == IPv4;
 }
 
-shared_ptr<ipdb::Reader> ipdb::Reader::New(const string &file) {
+ipdb::Reader::Reader(const string &file) {
     ifstream fs(file, ios::binary | ios::out);
     if (fs.tellg() == -1) {
         throw ErrFileSize;
     }
-    auto reader = make_shared<Reader>();
     fs.seekg(0, ios::end);
-    auto fileSize = fs.tellg();
+    auto fsize = fs.tellg();
     uint32_t metaLength = 0ul;
     fs.seekg(0, ios::beg);
     fs.read((char *) &metaLength, 4);
@@ -188,35 +187,32 @@ shared_ptr<ipdb::Reader> ipdb::Reader::New(const string &file) {
     bb.resize(metaLength);
     fs.read(&bb[0], metaLength);
 
-    reader->meta.Parse(bb);
+    meta.Parse(bb);
 
-    if (reader->meta.Languages.empty() || reader->meta.Fields.empty()) {
+    if (meta.Languages.empty() || meta.Fields.empty()) {
         throw ErrMetaData;
     }
 
-    if (fileSize != (4 + metaLength + reader->meta.TotalSize)) {
+    if (fsize != (4 + metaLength + meta.TotalSize)) {
         throw ErrFileSize;
     }
-    reader->fileSize = (int) fileSize;
-    auto dataLen = (int) fileSize - 4 - metaLength;
-    reader->data = new u_char[dataLen];
-    fs.read((char *) reader->data, dataLen);
-    reader->dataSize = dataLen;
+    fileSize = (int) fsize;
+    auto dataLen = (int) fsize - 4 - metaLength;
+    data = shared_ptr<u_char>(new u_char[dataLen], std::default_delete<u_char[]>());;
+    fs.read((char *) data.get(), dataLen);
+    dataSize = dataLen;
     auto node = 0;
-    for (auto i = 0; i < 96 && node < reader->meta.NodeCount; ++i) {
+    for (auto i = 0; i < 96 && node < meta.NodeCount; ++i) {
         if (i >= 80) {
-            node = reader->readNode(node, 1);
+            node = readNode(node, 1);
         } else {
-            node = reader->readNode(node, 0);
+            node = readNode(node, 0);
         }
     }
-    reader->v4offset = node;
-    return reader;
+    v4offset = node;
 }
 
-ipdb::Reader::~Reader() {
-    delete[]data;
-}
+ipdb::Reader::~Reader() = default;
 
 uint64_t ipdb::Reader::Build() {
     return meta.Build;
@@ -228,4 +224,8 @@ vector<string> ipdb::Reader::Languages() {
         ls.emplace_back(i.first);
     }
     return ls;
+}
+
+ipdb::City::City(const string &file) : Reader(file) {
+
 }

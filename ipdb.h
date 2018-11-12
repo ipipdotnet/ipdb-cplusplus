@@ -48,7 +48,7 @@ namespace ipdb {
         int v4offset = 0;
         int fileSize = 0;
         int dataSize = 0;
-        u_char *data = nullptr;
+        shared_ptr<u_char> data = nullptr;
 
         int readNode(int node, int index) const;
 
@@ -63,7 +63,7 @@ namespace ipdb {
     public:
         ~Reader();
 
-        static shared_ptr<Reader> New(const string &file);
+        explicit Reader(const string &file);
 
         vector<string> Find(const string &addr, const string &language);
 
@@ -78,6 +78,10 @@ namespace ipdb {
         uint64_t Build();
 
         vector<string> Languages();
+    };
+
+    class City : Reader {
+        explicit City(const string &file);
     };
 }
 

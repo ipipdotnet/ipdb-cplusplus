@@ -3,7 +3,7 @@
 
 int main() {
     try {
-        auto reader = ipdb::Reader::New("/root/cpp/ipdb-cplusplus/mydata6vipday4.ipdb");
+        auto reader = std::make_shared<ipdb::Reader>("/root/cpp/ipdb-cplusplus/mydata6vipday4.ipdb");
         std::cout << "IPv6 Support:" << reader->IsIPv6Support() << std::endl;   // Whether IPv6 is supported
         std::cout << "IPv4 Support:" << reader->IsIPv4Support() << std::endl;   // Whether IPv4 is supported
         std::cout << "Languages:";                                              // Supported language items
