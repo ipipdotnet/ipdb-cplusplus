@@ -222,83 +222,83 @@ ipdb::CityInfo::CityInfo(const vector<string> &data) {
 }
 
 string ipdb::CityInfo::CountryName() {
-    return _data[0];
+    return !_data.empty() ? _data[0] : "";
 }
 
 string ipdb::CityInfo::RegionName() {
-    return _data[1];
+    return _data.size() > 1 ? _data[1] : "";
 }
 
 string ipdb::CityInfo::CityName() {
-    return _data[2];
+    return _data.size() > 2 ? _data[2] : "";
 }
 
 string ipdb::CityInfo::OwnerDomain() {
-    return _data[3];
+    return _data.size() > 3 ? _data[3] : "";
 }
 
 string ipdb::CityInfo::IspDomain() {
-    return _data[4];
+    return _data.size() > 4 ? _data[4] : "";
 }
 
 string ipdb::CityInfo::Latitude() {
-    return _data[5];
+    return _data.size() > 5 ? _data[5] : "";
 }
 
 string ipdb::CityInfo::Longitude() {
-    return _data[6];
+    return _data.size() > 6 ? _data[6] : "";
 }
 
 string ipdb::CityInfo::Timezone() {
-    return _data[7];
+    return _data.size() > 7 ? _data[7] : "";
 }
 
 string ipdb::CityInfo::UtcOffset() {
-    return _data[8];
+    return _data.size() > 8 ? _data[8] : "";
 }
 
 string ipdb::CityInfo::ChinaAdminCode() {
-    return _data[9];
+    return _data.size() > 9 ? _data[9] : "";
 }
 
 string ipdb::CityInfo::IddCode() {
-    return _data[10];
+    return _data.size() > 10 ? _data[10] : "";
 }
 
 string ipdb::CityInfo::CountryCode() {
-    return _data[11];
+    return _data.size() > 11 ? _data[11] : "";
 }
 
 string ipdb::CityInfo::ContinentCode() {
-    return _data[12];
+    return _data.size() > 12 ? _data[12] : "";
 }
 
 string ipdb::CityInfo::IDC() {
-    return _data[13];
+    return _data.size() > 13 ? _data[13] : "";
 }
 
 string ipdb::CityInfo::BaseStation() {
-    return _data[14];
+    return _data.size() > 14 ? _data[14] : "";
 }
 
 string ipdb::CityInfo::CountryCode3() {
-    return _data[15];
+    return _data.size() > 15 ? _data[15] : "";
 }
 
 string ipdb::CityInfo::EuropeanUnion() {
-    return _data[16];
+    return _data.size() > 16 ? _data[16] : "";
 }
 
 string ipdb::CityInfo::CurrencyCode() {
-    return _data[17];
+    return _data.size() > 17 ? _data[17] : "";
 }
 
 string ipdb::CityInfo::CurrencyName() {
-    return _data[18];
+    return _data.size() > 18 ? _data[18] : "";
 }
 
 string ipdb::CityInfo::Anycast() {
-    return _data[19];
+    return _data.size() > 19 ? _data[19] : "";
 }
 
 string ipdb::CityInfo::str() {
@@ -451,35 +451,35 @@ ipdb::DistrictInfo::DistrictInfo(const vector<string> &data) {
 }
 
 string ipdb::DistrictInfo::CountryName() {
-    return _data[0];
+    return !_data.empty() ? _data[0] : "";
 }
 
 string ipdb::DistrictInfo::RegionName() {
-    return _data[1];
+    return _data.size() > 1 ? _data[1] : "";
 }
 
 string ipdb::DistrictInfo::CityName() {
-    return _data[2];
+    return _data.size() > 2 ? _data[2] : "";
 }
 
 string ipdb::DistrictInfo::DistrictName() {
-    return _data[3];
+    return _data.size() > 3 ? _data[3] : "";
 }
 
 string ipdb::DistrictInfo::ChinaAdminCode() {
-    return _data[4];
+    return _data.size() > 4 ? _data[4] : "";
 }
 
 string ipdb::DistrictInfo::CoveringRadius() {
-    return _data[5];
+    return _data.size() > 5 ? _data[5] : "";
 }
 
 string ipdb::DistrictInfo::Latitude() {
-    return _data[6];
+    return _data.size() > 6 ? _data[6] : "";
 }
 
 string ipdb::DistrictInfo::Longitude() {
-    return _data[7];
+    return _data.size() > 7 ? _data[7] : "";
 }
 
 string ipdb::DistrictInfo::str() {
@@ -524,27 +524,27 @@ ipdb::IDCInfo::IDCInfo(const vector<string> &data) {
 }
 
 string ipdb::IDCInfo::CountryName() {
-    return _data[0];
+    return !_data.empty() ? _data[0] : "";
 }
 
 string ipdb::IDCInfo::RegionName() {
-    return _data[1];
+    return _data.size() > 1 ? _data[1] : "";
 }
 
 string ipdb::IDCInfo::CityName() {
-    return _data[2];
+    return _data.size() > 2 ? _data[2] : "";
 }
 
 string ipdb::IDCInfo::OwnerDomain() {
-    return _data[3];
+    return _data.size() > 3 ? _data[3] : "";
 }
 
 string ipdb::IDCInfo::IspDomain() {
-    return _data[4];
+    return _data.size() > 4 ? _data[4] : "";
 }
 
 string ipdb::IDCInfo::IDC() {
-    return _data[5];
+    return _data.size() > 5 ? _data[5] : "";
 }
 
 string ipdb::IDCInfo::str() {
