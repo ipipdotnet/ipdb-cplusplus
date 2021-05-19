@@ -259,29 +259,33 @@ ipdb::CityInfo::CityInfo(const vector<string> &data, const vector<string> &field
         else if (*i == "anycast") { anycast = *j; }
         else if (*i == "line") { line = *j; }
         else if (*i == "district_info") {
-            Document doc;
-            doc.Parse(j->c_str());
             vector<string> names;
             vector<string> values;
-            for (const auto &o: doc.GetObject()) {
-                values.emplace_back(o.name.GetString());
-                names.emplace_back(o.value.GetString());
+            if (!j->empty()) {
+                Document doc;
+                doc.Parse(j->c_str());
+                for (const auto &o: doc.GetObject()) {
+                    values.emplace_back(o.name.GetString());
+                    names.emplace_back(o.value.GetString());
+                }
             }
             district_info = make_shared<ipdb::DistrictInfo>(names, values);
         } else if (*i == "route") { route = *j; }
         else if (*i == "asn") { asn = *j; }
         else if (*i == "asn_info") {
-            Document doc;
-            doc.Parse(j->c_str());
             vector<shared_ptr<ipdb::ASNInfo>> ans_vector;
-            for (const auto &array:doc.GetArray()) {
-                vector<string> names;
-                vector<string> values;
-                for (const auto &o:array.GetObject()) {
-                    values.emplace_back(o.name.GetString());
-                    names.emplace_back(o.value.GetString());
+            if (!j->empty()) {
+                Document doc;
+                doc.Parse(j->c_str());
+                for (const auto &array:doc.GetArray()) {
+                    vector<string> names;
+                    vector<string> values;
+                    for (const auto &o:array.GetObject()) {
+                        values.emplace_back(o.name.GetString());
+                        names.emplace_back(o.value.GetString());
+                    }
+                    ans_vector.emplace_back(make_shared<ipdb::ASNInfo>(names, values));
                 }
-                ans_vector.emplace_back(make_shared<ipdb::ASNInfo>(names, values));
             }
             asn_info = move(ans_vector);
         } else if (*i == "area_code") { area_code = *j; }
