@@ -264,9 +264,11 @@ ipdb::CityInfo::CityInfo(const vector<string> &data, const vector<string> &field
             if (!j->empty()) {
                 Document doc;
                 doc.Parse(j->c_str());
-                for (const auto &o: doc.GetObject()) {
-                    values.emplace_back(o.name.GetString());
-                    names.emplace_back(o.value.GetString());
+                if (doc.IsObject()) {
+                    for (const auto &o: doc.GetObject()) {
+                        values.emplace_back(o.name.GetString());
+                        names.emplace_back(o.value.GetString());
+                    }
                 }
             }
             district_info = make_shared<ipdb::DistrictInfo>(names, values);
@@ -277,14 +279,16 @@ ipdb::CityInfo::CityInfo(const vector<string> &data, const vector<string> &field
             if (!j->empty()) {
                 Document doc;
                 doc.Parse(j->c_str());
-                for (const auto &array:doc.GetArray()) {
-                    vector<string> names;
-                    vector<string> values;
-                    for (const auto &o:array.GetObject()) {
-                        values.emplace_back(o.name.GetString());
-                        names.emplace_back(o.value.GetString());
+                if (doc.IsObject()) {
+                    for (const auto &array:doc.GetArray()) {
+                        vector<string> names;
+                        vector<string> values;
+                        for (const auto &o:array.GetObject()) {
+                            values.emplace_back(o.name.GetString());
+                            names.emplace_back(o.value.GetString());
+                        }
+                        ans_vector.emplace_back(make_shared<ipdb::ASNInfo>(names, values));
                     }
-                    ans_vector.emplace_back(make_shared<ipdb::ASNInfo>(names, values));
                 }
             }
             asn_info = move(ans_vector);
