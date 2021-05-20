@@ -1,7 +1,6 @@
 //
 // Created by root on 9/4/18.
 //
-
 #ifndef IPDB_IPDB_H
 #define IPDB_IPDB_H
 
@@ -11,24 +10,17 @@
 #include <map>
 
 namespace ipdb {
-
 #define  IPv4  0x01
 #define  IPv6  0x02
-
 #define ErrFileSize "IP Database file size error."
 #define ErrMetaData "IP Database metadata error."
 //#define ErrReadFull "IP Database ReadFull error."
-
 #define ErrDatabaseError "database error"
-
 #define ErrIPFormat "Query IP Format error."
-
 #define ErrNoSupportLanguage "language not support"
 #define ErrNoSupportIPv4 "IPv4 not support"
 #define ErrNoSupportIPv6 "IPv6 not support"
-
 #define ErrDataNotExists "data is not exists"
-
     using namespace std;
 
     class MetaData {
@@ -39,7 +31,6 @@ namespace ipdb {
         int NodeCount{};              //`json:"node_count"`
         int TotalSize{};              //`json:"total_size"`
         vector<string> Fields;      //`json:"fields"`
-
         void Parse(const string &json);
     };
 
@@ -69,61 +60,167 @@ namespace ipdb {
 
         map<string, string> FindMap(const string &addr, const string &language);
 
-        bool IsIPv4Support();
+        bool IsIPv4Support() const;
 
-        bool IsIPv6Support();
+        bool IsIPv6Support() const;
 
-        uint64_t BuildTime();
+        uint64_t BuildTime() const;
 
         vector<string> Languages();
 
-        vector<string> Fields();
+        vector<string> Fields() const;
+    };
+
+    class ASNInfo {
+        string asn;
+        string reg;
+        string cc;
+        string net;
+        string org;
+        string type;
+        string domain;
+    public:
+        explicit ASNInfo(const vector<string> &data, const vector<string> &fields);
+
+        string GetAsn();
+
+        string GetReg();
+
+        string GetCc();
+
+        string GetNet();
+
+        string GetOrg();
+
+        string GetType();
+
+        string GetDomain();
+
+        string str();
+    };
+
+    class DistrictInfo {
+        string country_name;
+        string region_name;
+        string city_name;
+        string district_name;
+        string china_admin_code;
+        string covering_radius;
+        string latitude;
+        string longitude;
+    public:
+        explicit DistrictInfo(const vector<string> &data, const vector<string> &fields);
+
+        string GetCountryName();
+
+        string GetRegionName();
+
+        string GetCityName();
+
+        string GetDistrictName();
+
+        string GetChinaAdminCode();
+
+        string GetCoveringRadius();
+
+        string GetLatitude();
+
+        string GetLongitude();
+
+        string str();
+    };
+
+    class District : public Reader {
+    public:
+        explicit District(const string &file);
+
+        DistrictInfo FindInfo(const string &addr, const string &language);
     };
 
     class CityInfo {
-        vector<string> _data;
+        string country_name;
+        string region_name;
+        string city_name;
+        string owner_domain;
+        string isp_domain;
+        string latitude;
+        string longitude;
+        string timezone;
+        string utc_offset;
+        string china_admin_code;
+        string idd_code;
+        string country_code;
+        string continent_code;
+        string idc;
+        string base_station;
+        string country_code3;
+        string european_union;
+        string currency_code;
+        string currency_name;
+        string anycast;
+        string line;
+        shared_ptr<DistrictInfo> district_info;
+        string route;
+        string asn;
+        vector<shared_ptr<ASNInfo>> asn_info;
+        string area_code;
+        string usage_type;
     public:
-        explicit CityInfo(const vector<string> &data);
+        explicit CityInfo(const vector<string> &data, const vector<string> &fields);
 
-        string CountryName();
+        string GetCountryName();
 
-        string RegionName();
+        string GetRegionName();
 
-        string CityName();
+        string GetCityName();
 
-        string OwnerDomain();
+        string GetOwnerDomain();
 
-        string IspDomain();
+        string GetIspDomain();
 
-        string Latitude();
+        string GetLatitude();
 
-        string Longitude();
+        string GetLongitude();
 
-        string Timezone();
+        string GetTimezone();
 
-        string UtcOffset();
+        string GetUtcOffset();
 
-        string ChinaAdminCode();
+        string GetChinaAdminCode();
 
-        string IddCode();
+        string GetIddCode();
 
-        string CountryCode();
+        string GetCountryCode();
 
-        string ContinentCode();
+        string GetContinentCode();
 
-        string IDC();
+        string GetIDC();
 
-        string BaseStation();
+        string GetBaseStation();
 
-        string CountryCode3();
+        string GetCountryCode3();
 
-        string EuropeanUnion();
+        string GetEuropeanUnion();
 
-        string CurrencyCode();
+        string GetCurrencyCode();
 
-        string CurrencyName();
+        string GetCurrencyName();
 
-        string Anycast();
+        string GetAnycast();
+
+        string GetLine();
+
+        shared_ptr<DistrictInfo> GetDistrictInfo();
+
+        string GetRoute();
+
+        string GetASN();
+
+        vector<shared_ptr<ASNInfo>> GetASNInfo();
+
+        string GetAreaCode();
+
+        string GetUsageType();
 
         string str();
     };
@@ -136,21 +233,26 @@ namespace ipdb {
     };
 
     class BaseStationInfo {
-        vector<string> _data;
+        string country_name;
+        string region_name;
+        string city_name;
+        string owner_domain;
+        string isp_domain;
+        string base_station;
     public:
-        explicit BaseStationInfo(const vector<string> &data);
+        explicit BaseStationInfo(const vector<string> &data, const vector<string> &fields);
 
-        string CountryName();
+        string GetCountryName();
 
-        string RegionName();
+        string GetRegionName();
 
-        string CityName();
+        string GetCityName();
 
-        string OwnerDomain();
+        string GetOwnerDomain();
 
-        string IspDomain();
+        string GetIspDomain();
 
-        string BaseStation();
+        string GetBaseStation();
 
         string str();
     };
@@ -162,53 +264,27 @@ namespace ipdb {
         BaseStationInfo FindInfo(const string &addr, const string &language);
     };
 
-    class DistrictInfo {
-        vector<string> _data;
-    public:
-        explicit DistrictInfo(const vector<string> &data);
-
-        string CountryName();
-
-        string RegionName();
-
-        string CityName();
-
-        string DistrictName();
-
-        string ChinaAdminCode();
-
-        string CoveringRadius();
-
-        string Latitude();
-
-        string Longitude();
-
-        string str();
-    };
-
-    class District : public Reader {
-    public:
-        explicit District(const string &file);
-
-        DistrictInfo FindInfo(const string &addr, const string &language);
-    };
-
     class IDCInfo {
-        vector<string> _data;
+        string country_name;
+        string region_name;
+        string city_name;
+        string owner_domain;
+        string isp_domain;
+        string idc;
     public:
-        explicit IDCInfo(const vector<string> &data);
+        explicit IDCInfo(const vector<string> &data, const vector<string> &fields);
 
-        string CountryName();
+        string GetCountryName();
 
-        string RegionName();
+        string GetRegionName();
 
-        string CityName();
+        string GetCityName();
 
-        string OwnerDomain();
+        string GetOwnerDomain();
 
-        string IspDomain();
+        string GetIspDomain();
 
-        string IDC();
+        string GetIDC();
 
         string str();
     };
@@ -220,6 +296,4 @@ namespace ipdb {
         IDCInfo FindInfo(const string &addr, const string &language);
     };
 }
-
-
 #endif //IPDB_IPDB_H
