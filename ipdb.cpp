@@ -39,7 +39,7 @@ string ipdb::Reader::resolve(int node) {
     if (resolved >= fileSize) {
         throw ErrDatabaseError;
     }
-    auto size = (data.get()[resolved] << 8) | data.get()[resolved + 2];
+    auto size = (data.get()[resolved] << 8) | data.get()[resolved + 1];
     if ((resolved + 2 + size) > dataSize) {
         throw ErrDatabaseError;
     }
