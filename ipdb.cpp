@@ -374,7 +374,7 @@ string ipdb::CityInfo::str() {
     sb << "currency_name: " << currency_name << endl;
     sb << "anycast: " << anycast << endl;
     sb << "line: " << line << endl;
-    sb << "district_info: " << district_info->str() << endl;
+    if (district_info) sb << "district_info: " << district_info->str() << endl;
     sb << "route: " << route << endl;
     sb << "asn: " << asn << endl;
     for (const auto &i:asn_info)
