@@ -139,7 +139,7 @@ bool ipdb::Reader::IsIPv4Support() const {
 }
 
 ipdb::Reader::Reader(const string &file) {
-    ifstream fs(file, ios::binary | ios::out);
+    ifstream fs(file, ios::binary | ios::in);
     if (fs.tellg() == -1) {
         throw ErrFileSize;
     }
