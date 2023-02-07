@@ -39,11 +39,11 @@ string ipdb::Reader::resolve(int node) {
     if (resolved >= fileSize) {
         throw ErrDatabaseError;
     }
-    auto size = (data.get()[resolved] << 8) | data.get()[resolved + 1];
+    std::size_t size = (data.get()[resolved] << 8) | data.get()[resolved + 1];
     if ((resolved + 2 + size) > dataSize) {
         throw ErrDatabaseError;
     }
-    string bytes = (const char *) data.get() + resolved + 2;
+    string bytes{(const char *) data.get() + resolved + 2, size};
     return bytes;
 }
 
