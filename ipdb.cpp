@@ -240,6 +240,7 @@ ipdb::CityInfo::CityInfo(const vector<string> &data, const vector<string> &field
         if (*i == "country_name") { country_name = *j; }
         else if (*i == "region_name") { region_name = *j; }
         else if (*i == "city_name") { city_name = *j; }
+        else if (*i == "district_name") { district_name = *j; }
         else if (*i == "owner_domain") { owner_domain = *j; }
         else if (*i == "isp_domain") { isp_domain = *j; }
         else if (*i == "latitude") { latitude = *j; }
@@ -303,6 +304,8 @@ string ipdb::CityInfo::GetRegionName() { return region_name; }
 
 string ipdb::CityInfo::GetCityName() { return city_name; }
 
+string ipdb::CityInfo::GetDistrictName() { return district_name; }
+
 string ipdb::CityInfo::GetOwnerDomain() { return owner_domain; }
 
 string ipdb::CityInfo::GetIspDomain() { return isp_domain; }
@@ -356,6 +359,7 @@ string ipdb::CityInfo::str() {
     sb << "country_name: " << country_name << endl;
     sb << "region_name: " << region_name << endl;
     sb << "city_name: " << city_name << endl;
+    sb << "district_name: " << district_name << endl;
     sb << "owner_domain: " << owner_domain << endl;
     sb << "isp_domain: " << isp_domain << endl;
     sb << "latitude: " << latitude << endl;

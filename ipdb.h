@@ -141,6 +141,7 @@ namespace ipdb {
         string country_name;
         string region_name;
         string city_name;
+        string district_name;
         string owner_domain;
         string isp_domain;
         string latitude;
@@ -173,6 +174,8 @@ namespace ipdb {
         string GetRegionName();
 
         string GetCityName();
+
+        string GetDistrictName();
 
         string GetOwnerDomain();
 
